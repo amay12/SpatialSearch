@@ -147,7 +147,7 @@ As the density of data points increases in a region, the relative performance of
 
 ![NearestNeighbor](https://user-images.githubusercontent.com/31099049/70744479-a086f680-1cd6-11ea-85e5-a65b22a2cd8e.png)
 
-KD tree is very efficient in finding nearest neighbor because it can reliably locate neighbors in average log(N) time given that the KD tree is not skewed very badly. The graph will not represent an exact log graph because the points are generated randomly on the plane and since KD tree is not self balancing, some data point neighbors will be found faster than others.
+KD tree is very efficient in finding nearest neighbor because it can reliably locate neighbors in average log(N) time given that the KD tree is not highly skewed. The graph will not represent an exact log graph because the points are generated randomly on the plane and since KD tree is not self balancing, some data point neighbors will be found faster than others.
 
 Analysis of Quad tree nearest neighbor is a little bit trickier because of the window size we have to choose to search neighbors in. A large window size will result in more Quadtree nodes being considered as neighbors to expand and explore for finding neighbors.  For this graph we chose window size to be 1/100 of the size of the entire 2D plane on which the quad tree was defined. Since quad trees are not optimized to search nearest neighbors like KD-trees, we experience longer times to calculate nearest neighbors of the same points.
 
