@@ -1,44 +1,37 @@
-/**
- * File: Quad.java
- * Created By: amaykadre
- * Created On: 2019-11-25
- * Type: Quad
- */
-package SearchImplementation;
+package operations;
+
+import models.quad.QuadPoint;
+import models.quad.QuadTreeNode;
 
 import java.util.Stack;
 
-/**
- * @author amaykadre
- *
- */
-public class Quad {
-    QuadPoint bottomLeft; 
+public class QuadTree {
+    QuadPoint bottomLeft;
     QuadPoint topRight; 
     
-    QuadTreeNode node; 
+    QuadTreeNode node;
   
-    Quad topLeftTree; 
-    Quad topRightTree; 
-    Quad botLeftTree; 
-    Quad botRightTree; 
+    QuadTree topLeftTree;
+    QuadTree topRightTree;
+    QuadTree bottomLeftTree;
+    QuadTree bottomRightTree;
 
-	public Quad() {
+	public QuadTree() {
         bottomLeft = new QuadPoint(0, 0); 
         topRight = new QuadPoint(0, 0); 
         node = null; 
         topLeftTree  = null; 
         topRightTree = null; 
-        botLeftTree  = null; 
-        botRightTree = null; 
+        bottomLeftTree = null;
+        bottomRightTree = null;
     }
-    public Quad(QuadPoint topL, QuadPoint botR) 
+    public QuadTree(QuadPoint topL, QuadPoint botR)
     { 
         node = null; 
         topLeftTree  = null; 
         topRightTree = null; 
-        botLeftTree  = null; 
-        botRightTree = null; 
+        bottomLeftTree = null;
+        bottomRightTree = null;
         bottomLeft = topL; 
         topRight = botR; 
     } 
@@ -74,12 +67,12 @@ public class Quad {
             // Indicates bottomLeftTree 
             if ((bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2 >= node.dataPoint.coordinates[1]) 
             { 
-            	if (botLeftTree == null) 
-                    botLeftTree = new Quad( 
+            	if (bottomLeftTree == null)
+                    bottomLeftTree = new QuadTree(
                         new QuadPoint(bottomLeft.coordinates[0], bottomLeft.coordinates[1]), 
                         new QuadPoint((bottomLeft.coordinates[0] + topRight.coordinates[0]) / 2, 
                         		(bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2)); 
-                botLeftTree.insert(node); 
+                bottomLeftTree.insert(node);
                 
                 
             } 
@@ -88,7 +81,7 @@ public class Quad {
             else
             { 
             	if (topLeftTree == null) 
-                    topLeftTree = new Quad( new QuadPoint(
+                    topLeftTree = new QuadTree( new QuadPoint(
 	                    						bottomLeft.coordinates[0],
 	                    						(bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2
                     						), 
@@ -105,8 +98,8 @@ public class Quad {
             // Indicates bottomRightTree 
             if ((bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2 >= node.dataPoint.coordinates[1]) 
             { 
-            	if (botRightTree == null) 
-                    botRightTree = new Quad( new QuadPoint(
+            	if (bottomRightTree == null)
+                    bottomRightTree = new QuadTree( new QuadPoint(
                     		(bottomLeft.coordinates[0] + topRight.coordinates[0]) / 2, 
                             bottomLeft.coordinates[1]
                 		), 
@@ -115,7 +108,7 @@ public class Quad {
         					(bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2
         				)
         				);
-                botRightTree.insert(node); 
+                bottomRightTree.insert(node);
             } 
       
             // Indicates toppRightTree 
@@ -123,7 +116,7 @@ public class Quad {
             { 
             	
             	if (topRightTree == null) 
-                    topRightTree =   new Quad( new QuadPoint(
+                    topRightTree =   new QuadTree( new QuadPoint(
                     		(bottomLeft.coordinates[0] + topRight.coordinates[0]) / 2, 
                     		(bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2
                 		), 
@@ -140,23 +133,23 @@ public class Quad {
     
     
     public QuadTreeNode nearestNeighbor(QuadPoint p, int[] botLeftPoint, int[] topRightPoint) {
-    	Stack<Quad> stack = new Stack<>();
+    	Stack<QuadTree> stack = new Stack<>();
         stack.push(this);
         double minDist = Integer.MAX_VALUE;
         QuadTreeNode closestNode = this.node;
         while(!stack.isEmpty()) {
-        	Quad poppedNode = stack.pop();
+        	QuadTree poppedNode = stack.pop();
 	    	if(poppedNode.topLeftTree != null && checkRectOverlap(poppedNode.topLeftTree, botLeftPoint, topRightPoint)) {
 	    		stack.push(poppedNode.topLeftTree);
 	    	}
 	    	if(poppedNode.topRightTree != null && checkRectOverlap(poppedNode.topRightTree, botLeftPoint, topRightPoint)) {
 	    		stack.push(poppedNode.topRightTree);
 	    	}
-	    	if(poppedNode.botLeftTree != null && checkRectOverlap(poppedNode.botLeftTree, botLeftPoint, topRightPoint)) {
-	    		stack.push(poppedNode.botLeftTree);
+	    	if(poppedNode.bottomLeftTree != null && checkRectOverlap(poppedNode.bottomLeftTree, botLeftPoint, topRightPoint)) {
+	    		stack.push(poppedNode.bottomLeftTree);
 	    	}
-	    	if(poppedNode.botRightTree != null && checkRectOverlap(poppedNode.botRightTree, botLeftPoint, topRightPoint)) {
-	    		stack.push(poppedNode.botRightTree);
+	    	if(poppedNode.bottomRightTree != null && checkRectOverlap(poppedNode.bottomRightTree, botLeftPoint, topRightPoint)) {
+	    		stack.push(poppedNode.bottomRightTree);
 	    	}
 	    	if(poppedNode != null && poppedNode.node != null) {
 	    		double dist = euclidianDist(poppedNode.node.dataPoint, p);
@@ -169,7 +162,7 @@ public class Quad {
     	return closestNode;
     }
     
-    static boolean checkRectOverlap(Quad node, int[] l2, int[] r2) { 
+    static boolean checkRectOverlap(QuadTree node, int[] l2, int[] r2) {
     	int[] l1 = node.bottomLeft.coordinates; 
     	int[] r1 = node.topRight.coordinates;
         
@@ -205,9 +198,9 @@ public class Quad {
             // Indicates bottomLeftTree 
             if ((bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2 >= p.coordinates[1]) 
             { 
-            	if (botLeftTree == null) 
+            	if (bottomLeftTree == null)
                     return null; 
-                return botLeftTree.search(p);
+                return bottomLeftTree.search(p);
             } 
       
             // Indicates toppLeftTree 
@@ -224,9 +217,9 @@ public class Quad {
             // Indicates bottomRightTree 
             if ((bottomLeft.coordinates[1] + topRight.coordinates[1]) / 2 >= p.coordinates[1]) 
             { 
-            	if (botRightTree == null) 
+            	if (bottomRightTree == null)
                     return null; 
-                return botRightTree.search(p); 
+                return bottomRightTree.search(p);
                 
             } 
       

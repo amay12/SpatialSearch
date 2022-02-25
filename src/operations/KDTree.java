@@ -1,19 +1,8 @@
-/**
- * File: KDTreeOperations.java
- * Created By: amaykadre
- * Created On: 2019-11-25
- * Type: KDTreeOperations
- */
-package SearchOperations;
+package operations;
 
-import SearchImplementation.KDTreeNode;
+import models.KDTreeNode;
 
-/**
- * @author amaykadre
- *
- */
-public class KDTreeOperations {
-
+public class KDTree {
 	
 	/**
 	 * Initial Depth: 0

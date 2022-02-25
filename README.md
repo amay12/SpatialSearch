@@ -88,7 +88,7 @@ To find the nearest neighbor:
 * The coordinates of 2-dimensional plane window W over which spatial search implementations are compared are kept as (0,0) and (100000,100000).
 * Points to be inserted are selected from the same window W.
 * The data points selected for insertion are generated randomly. For comparative analysis of insertion, the number of data points are varied from 1000 to 100,000 in multiples of 10,000.
-* For comparative analysis of the search operation, the number of test cases to be searched for each N (Here N is the number of data points in the data structure) is varied from 1 to 1000.
+* For comparative analysis of the search operation, the number of util cases to be searched for each N (Here N is the number of data points in the data structure) is varied from 1 to 1000.
 * The density value ranges from 0 to 10 and is being used to segregate points into two regions: one of a high density cluster which occupies 10% of the 2-D plane and the other set will be randomly placed. As the density increases from 0 - 10, the proportion of points allotted to the dense cluster is higher. For eg: At density 0, all points are randomly placed on the 2D plane. At density 1, 10% of the points are in the dense cluster and 90% are random and so on.
 * To find the nearest neighbor, a window R of area W/10 is created. Nearest neighbor Q is calculated for a point P where P and Q both lie in R. Hence, it is guaranteed that the nearest neighbor is present in R and thus the search is restricted to window R.
 

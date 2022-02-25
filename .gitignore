@@ -1,0 +1,5 @@
+/.idea
+target/
+/.settings
+/bin
+spatial-index.iml

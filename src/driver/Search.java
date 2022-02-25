@@ -1,43 +1,32 @@
-/**
- * File: SearchDriver.java
- * Created By: amaykadre
- * Created On: 2019-11-25
- * Type: SearchDriver
- */
-package Driver;
+package driver;
 
-import SearchImplementation.KDTreeNode;
-import SearchImplementation.Quad;
-import SearchImplementation.QuadPoint;
-import SearchImplementation.QuadTreeNode;
-import SearchOperations.KDTreeOperations;
-import Test.TestCases;
+import models.KDTreeNode;
+import operations.QuadTree;
+import models.quad.QuadPoint;
+import models.quad.QuadTreeNode;
+import operations.KDTree;
+import util.Generator;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-/**
- * @author amayKadre and sagarAlavandar
- *
- */
-public class SearchDriver {
+public class Search {
 
 	static int min = 0;
 	static int max = 100000;
 	static int numPointsGenerated = 1000;
 	static int numTestCases = 100;
 
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		
 		System.out.println("2D Plane coordinates: ("+min+","+min+") to ("+max+","+max+")");
 		System.out.println("Number of Generated Points: "+ numPointsGenerated);
-		TestCases test = new TestCases();
+		Generator test = new Generator();
 		
 		List<int[]> listOfPoints = test.generateTestCases(min, max, numPointsGenerated, 0);
 		List<int[]> listOfTestPoints = new ArrayList<>();
 		//List<int[]> listOfTestPoints = test.generateTestCases(min/4, max/4, numTestCases, 0);
-		int rootPoint[] = test.generateRandomPoint(min, max);
+		int[] rootPoint = test.generateRandomPoint(min, max);
 		listOfPoints.add(rootPoint);
 
 		//Uncomment this for Generating testcases with 50% points which lie in the data structures and 50% random points
@@ -69,7 +58,7 @@ public class SearchDriver {
 		
 		//------------------------------Quad Tree-------------------------------
 		//Insertion in quad tree
-		Quad center = new Quad(new QuadPoint(min, min), new QuadPoint(max, max));
+		QuadTree center = new QuadTree(new QuadPoint(min, min), new QuadPoint(max, max));
 		System.out.println("Quad-Tree Creation Time taken: "+quadTreeConstructionTime(center, rootPoint, listOfPoints));
 		
 		//Quad Tree search on test points
@@ -80,18 +69,18 @@ public class SearchDriver {
 	
 	}
 
-	public static long kDTreeConstructionTime(KDTreeNode root, int rootPoint[], List<int[]> listOfPoints) {
+	public static long kDTreeConstructionTime(KDTreeNode root, int[] rootPoint, List<int[]> listOfPoints) {
 		long startTimeKDIns = System.nanoTime();
 		//Insertion in KD Tree
 		for(int[] point : listOfPoints)
-			root = KDTreeOperations.insert(root, point);
+			root = KDTree.insert(root, point);
 		long endTimeKDIns = System.nanoTime();
 		return (endTimeKDIns - startTimeKDIns);
 	}
 	public static long kDTreeSearch(KDTreeNode root, List<int[]> listOfTestPoints) {
 		long startTimeKDSearch = System.nanoTime();
 		for(int[] point : listOfTestPoints)
-			KDTreeOperations.search(root, point);
+			KDTree.search(root, point);
 		long endTimeKDSearch = System.nanoTime();
 		long durationKDSearch = (endTimeKDSearch - startTimeKDSearch)/listOfTestPoints.size();
 		return durationKDSearch;
@@ -99,14 +88,14 @@ public class SearchDriver {
 	public static long kDTreeNearestNeighbor(KDTreeNode root,List<int[]> listOfTestPoints) {
 		long startTimeKDNearest = System.nanoTime();
 		for(int[] u: listOfTestPoints) {
-			KDTreeNode closest = KDTreeOperations.nearestNeighbour(root,u);
+			KDTreeNode closest = KDTree.nearestNeighbour(root,u);
 		}
 		long endTimeKDNearest = System.nanoTime();
 		long durationKDNearest = (endTimeKDNearest - startTimeKDNearest)/listOfTestPoints.size();
 		return durationKDNearest;
 	}
 	
-	public static long quadTreeConstructionTime(Quad center, int rootPoint[], List<int[]> listOfPoints) {
+	public static long quadTreeConstructionTime(QuadTree center, int rootPoint[], List<int[]> listOfPoints) {
 		long startTimeQuadIns = System.nanoTime();
 	    
 		for(int[] point : listOfPoints) {
@@ -117,7 +106,7 @@ public class SearchDriver {
 		long durationQuadIns = (endTimeQuadIns - startTimeQuadIns);
 		return durationQuadIns;
 	}
-	public static long quadTreeSearch(Quad center, List<int[]> listOfTestPoints) {
+	public static long quadTreeSearch(QuadTree center, List<int[]> listOfTestPoints) {
 		long startTimeQuadSearch = System.nanoTime();
 		for(int[] point : listOfTestPoints)
 			center.search(new QuadPoint(point[0], point[1]));
@@ -125,7 +114,7 @@ public class SearchDriver {
 		long durationQuadSearch = (endTimeQuadSearch - startTimeQuadSearch)/listOfTestPoints.size();
 		return durationQuadSearch;
 	}
-	public static long quadTreeNearestNeighbor(Quad center,List<int[]> listOfTestPoints) {
+	public static long quadTreeNearestNeighbor(QuadTree center, List<int[]> listOfTestPoints) {
 		int[] testWindowBot = {min/100,min/100};
 		int[] testWindowTop = {max/100,max/100};
 		

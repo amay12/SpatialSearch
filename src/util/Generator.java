@@ -1,9 +1,9 @@
-package Test;
+package util;
 
 import java.util.List;
 import java.util.ArrayList;
 
-public class TestCases {
+public class Generator {
 
     public List<int[]> generateTestCases(int min, int max, int count, int density) {
         int densePointCount = (int) (count * 0.1 * density);

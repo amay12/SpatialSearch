@@ -4,12 +4,8 @@
  * Created On: 2019-11-24
  * Type: KDTree
  */
-package SearchImplementation;
+package models;
 
-/**
- * @author amaykadre
- *
- */
 public class KDTreeNode{
 
 	public int[] dataPoint;
@@ -17,10 +13,7 @@ public class KDTreeNode{
 	
 	public KDTreeNode left;
 	public KDTreeNode right;
-	
-	/**
-	 * Input: dataPoint
-	 */
+
 	public KDTreeNode(int[] point) {
 		dataPoint = new int[DIMENSION];
 		for(int i = 0; i< point.length; i++) {

@@ -1,15 +1,5 @@
-/**
- * File: QuadTreeNode.java
- * Created By: amaykadre
- * Created On: 2019-11-25
- * Type: QuadTreeNode
- */
-package SearchImplementation;
+package models.quad;
 
-/**
- * @author amaykadre
- *
- */
 public class QuadTreeNode {
 
 	public QuadPoint dataPoint;
