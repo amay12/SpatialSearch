@@ -1,12 +1,6 @@
-/**
- * File: KDTree.java
- * Created By: amaykadre
- * Created On: 2019-11-24
- * Type: KDTree
- */
 package models;
 
-public class KDTreeNode{
+public class KDTreeNode {
 
 	public int[] dataPoint;
 	public final static int DIMENSION = 2;
@@ -16,12 +10,9 @@ public class KDTreeNode{
 
 	public KDTreeNode(int[] point) {
 		dataPoint = new int[DIMENSION];
-		for(int i = 0; i< point.length; i++) {
-			dataPoint[i] = point[i]; 
-		}
+		System.arraycopy(point, 0, dataPoint, 0, point.length);
 		left = null;
 		right = null;
-		
 	}
 	
 }
